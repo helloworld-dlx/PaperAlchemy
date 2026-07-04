@@ -127,7 +127,7 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang 
 .badge-multi{background:#fce7f3;color:#9d174d}
 .badge-judge{background:#d1fae5;color:#065f46}
 .badge-fill{background:#fef3c7;color:#92400e}
-.options{margin:0;padding-left:16px}
+.options{margin:0;padding-left:16px;list-style:none}
 .options li{margin-bottom:2px}
 .answer{margin-top:6px;padding:6px 10px;background:#ecfdf5;border-radius:6px;font-weight:600;color:#065f46;display:none}
 .answer.show{display:block}
