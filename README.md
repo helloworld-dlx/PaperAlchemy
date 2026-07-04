@@ -18,11 +18,11 @@
 | 进度条实时百分比 | 「只看错题」模式 | → 回刷题 tab 标记错题 |
 | 简答题专区 | **标记可撤销** | |
 
-![复习脉络](assets/review.png)
+![复习脉络](https://raw.githubusercontent.com/helloworld-dlx/PaperAlchemy/main/assets/review.png)
 
-![刷题考试](assets/quiz.png)
+![刷题考试](https://raw.githubusercontent.com/helloworld-dlx/PaperAlchemy/main/assets/quiz.png)
 
-![模拟考试](assets/mock.png) |
+![模拟考试](https://raw.githubusercontent.com/helloworld-dlx/PaperAlchemy/main/assets/mock.png) |
 
 ### 一句话说清
 
