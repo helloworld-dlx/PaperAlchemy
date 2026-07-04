@@ -169,8 +169,8 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang 
 .btn-toggle.on{background:#f0fdf4;border-color:var(--green);color:var(--green)}
 /* mobile */
 @media(max-width:768px){
-    .sidebar{width:200px;box-shadow:2px 0 8px rgba(0,0,0,.06)}
-    .main{margin-left:0;padding:8px}
+    .sidebar{width:200px;top:80px;box-shadow:2px 0 8px rgba(0,0,0,.06)}
+    .main{margin-left:0;margin-top:80px;padding:8px}
     .topbar-title{font-size:12px}
     .tab-btn{padding:6px 10px;font-size:12px}
     .lecture-section{padding:12px}
