@@ -199,11 +199,10 @@ document.addEventListener('click',function(ev){
     // answer toggle
     const at=t.closest('[id^="toggle-"]');
     if(at){ev.preventDefault();
-        const qid=at.id.replace('toggle-','');
-        const ans=document.getElementById('ans-'+qid);
-        const act=document.getElementById('act-'+qid);
-        if(ans.classList.toggle('show')){at.textContent='隐藏答案';if(act)act.classList.add('show')}
-        else{at.textContent='显示答案';if(act)act.classList.remove('show')}
+        const qEl=at.closest('.question');
+        const ans=qEl?qEl.querySelector('.answer'):null;
+        const act=qEl?qEl.querySelector('.q-actions'):null;
+        if(ans){const show=ans.classList.toggle('show');at.textContent=show?'隐藏答案':'显示答案';if(act)act.classList.toggle('show',show);}
         return;
     }
     // mark correct
@@ -281,10 +280,11 @@ function markQ(qid,status){
     ss(d);updateQBtn(qid);updateStats();
 }
 function updateQBtn(qid){
-    const d=gs();const el=document.getElementById('q-'+qid);if(!el)return;
+    const d=gs();document.querySelectorAll('#q-'+qid).forEach(el=>{
     const bc=el.querySelector('.q-btn-correct'),bw=el.querySelector('.q-btn-wrong');
     if(bc)bc.classList.toggle('on',!!d['c'+qid]);
     if(bw)bw.classList.toggle('on',!!d['w'+qid]);
+    });
 }
 
 // --- tab switching ---
