@@ -5,31 +5,36 @@ description: 课件炼金术 — 期末/考前复习 skill。将课件(PDF/DOCX/
 
 # PaperAlchemy — 课件炼金术
 
-> 课件 + 题库 → HTML 复习页面。没课件？仅凭教材名 + 题库也能用。
+> 课件 + 题库 → 两个自包含 HTML 文件（桌面/手机通用，零依赖）。没课件？仅凭教材名 + 题库也能用。
 
 ## 这是什么
 
-输入课件 + 题库 → 输出一个**自包含 HTML 文件**（桌面/手机通用，零依赖）。
+输入课件 + 题库 → 输出**两个互补的自包含 HTML 文件**：
 
-### 三 Tab 布局
+| 文件 | 作用 | 适合场景 |
+|------|------|----------|
+| `课程名-复习笔记.html` | 详细知识点卡片 + 每点 3-5 道例题 + 简答题 + 易错点汇总 + 考前检查清单 | 系统复习、考前速览 |
+| `课程名-刷题考试.html` | 交互式刷题（点选作答、即时反馈、解析）、错题追踪、弱项突击、模拟考试 | 大量刷题、查漏补缺 |
 
-| Tab | 功能 |
-|-----|------|
-| 复习脉络 | 知识点卡片（概念/要点/钩子/易错点）+ 每个知识点 Top-6 题目 +「去刷题」按钮 |
-| 刷题考试 | 动态渲染全部题目，可按知识点/题型筛选，「只看错题」模式，错题自动存 localStorage |
-| 模拟考试 | 随机抽题，可选题型和数量，「生成试卷」→「查看答案」→ 回刷题 tab 标记错题 |
+两文件数据互通（基于同一套知识点匹配），但功能解耦：笔记文件偏重「看」，刷题文件偏重「练」。
 
 ### 核心特性
 
+**复习笔记文件**
 - 知识点按讲次组织，侧边栏一键跳转
-- 每道题「我会了 / 我不会」标记，存 localStorage，关闭再打开还在
-- **标记可撤销**：再点一次取消标记
-- 「只看错题」模式：一键过滤未掌握的题目
-- **进度条**：显示已标记题目/总题数的百分比（真实复习进度，不依赖滚动）
-- 简答题专区：AI 根据课件预测 15-25 道高频简答题
-- **事件委托**：909 道题的 onclick 全消失（127KB → 0），体积从 986KB 压到 ~220KB
-- **懒渲染**：题目以紧凑 JSON 存储，按需动态生成 DOM
-- **页面标题可定制**：`COURSE_NAME` 配置项控制标题和顶栏显示的课程名
+- 每张卡片含：概念定义、关键要点、记忆钩子、常见错误、考试提示
+- 每个知识点配 **3-5 道精选例题**，答案可一键显隐，便于自测
+- 简答题专区、常见错误汇总、考前检查清单
+- 知识点搜索：输入关键词即时过滤
+
+**刷题考试文件**
+- 点击选项即可作答，即时显示正确答案与解析
+- 单选 / 多选 / 判断自动判分，填空题自测后手动标记
+- 错题自动存入 localStorage，关闭再打开还在
+- 「错题重练」一键过滤全部错题
+- **弱项仪表盘**：按知识点统计正确率，点击弱项直接突击
+- 模拟考试：自选题型和数量，生成试卷后对照答案
+- **事件委托 + 懒渲染**：909 道题以紧凑 JSON 存储，交互无 onclick
 
 ## 什么时候用
 
@@ -59,21 +64,21 @@ description: 课件炼金术 — 期末/考前复习 skill。将课件(PDF/DOCX/
 
 | Agent | 安装路径 | 加载方式 |
 |-------|---------|---------|
-| **OpenCode** | `~/.config/opencode/skills/exam-review/` | 启动自动扫描 |
-| **Claude Code** | `~/.claude/skills/exam-review/` | 启动自动扫描 |
-| **Codex CLI** | `~/.codex/skills/exam-review/` | 启动自动扫描 |
-| **OpenClaw** | `~/.claude/skills/exam-review/` | 兼容 Claude Code 路径 |
-| **Gemini CLI** | `~/.gemini/skills/exam-review/` | `activate_skill exam-review` |
-| **Copilot CLI** | 项目 `.github/copilot-skills/` | `skill exam-review` |
+| **OpenCode** | `~/.config/opencode/skills/PaperAlchemy/` | 启动自动扫描 |
+| **Claude Code** | `~/.claude/skills/PaperAlchemy/` | 启动自动扫描 |
+| **Codex CLI** | `~/.codex/skills/PaperAlchemy/` | 启动自动扫描 |
+| **OpenClaw** | `~/.claude/skills/PaperAlchemy/` | 兼容 Claude Code 路径 |
+| **Gemini CLI** | `~/.gemini/skills/PaperAlchemy/` | `activate_skill PaperAlchemy` |
+| **Copilot CLI** | 项目 `.github/copilot-skills/` | `skill PaperAlchemy` |
 
 **如何安装：**
 
 ```bash
 # 万能方法：git clone 到对应 agent 的 skills 目录
-git clone https://github.com/<your-username>/exam-review.git ~/.claude/skills/exam-review/
+git clone https://github.com/<your-username>/PaperAlchemy.git ~/.claude/skills/PaperAlchemy/
 
 # 或直接复制 SKILL.md + template/
-cp -r path/to/exam-review ~/.config/opencode/skills/exam-review/
+cp -r path/to/PaperAlchemy ~/.config/opencode/skills/PaperAlchemy/
 ```
 
 ## 完整工作流程
@@ -147,37 +152,64 @@ AI 根据课件预测 15-25 道高频简答题，覆盖每讲至少 2 道。
 
 ### 7. 生成 HTML
 
-编写或复用 `page_template.py` 构建脚本：
-- 题目序列化为紧凑 JSON（`[id, typeNum, q, [opts], ans]`）
-- 知识点注入为 JS 对象数组（含匹配题目索引）
-- CSS + JS 内嵌在 `<style>` 和 `<script>` 中
-- 三类数据 `window.Q / window.K / window.E / window.L` 注入 HTML
+使用 `template/build.py` 的 `build_all()` 函数，一次生成两个文件：
 
-**脚本关键参数：**
 ```python
-tpl.COURSE_NAME = "课程名称 · 期末复习笔记"  # 页面标题
-tpl.DEFAULT_SHOW = 6    # 每个知识点默认展示题目数
-tpl.USE_KATEX = False   # 理工科设 True
-tpl.OUTPUT_PATH = "path/to/课程名-期末复习笔记.html"  # 输出路径（建议含课程名）
+from template.build import build_all
+
+build_all(
+    knowledge_points=KNOWLEDGE_POINTS,
+    essay_questions=ESSAY_QUESTIONS,
+    lecture_titles=LECTURE_TITLES,
+    questions_json_path="path/to/questions.json",
+    output_dir="path/to/output/",
+    course_name="课程名",
+    max_sample_questions=5,  # 每个知识点在笔记中展示几道题
+)
 ```
+
+生成的文件：
+- `path/to/output/课程名-复习笔记.html`
+- `path/to/output/课程名-刷题考试.html`
+
+底层实现：
+- `template/shared_utils.py`：题目加载、关键词匹配、紧凑序列化
+- `template/notes_template.py`：复习笔记 HTML 生成
+- `template/quiz_template.py`：交互刷题 HTML 生成
+- 数据以 `window.Q / window.K / window.E / window.L` 注入页面
+- CSS + JS 完全内嵌，无需网络（KaTeX 除外）
 
 ### 8. 验证
 
+**复习笔记文件**
 - [ ] 文件大小合理（~200-350KB，视题目量）
-- [ ] 浏览器打开三个 tab 都正常渲染
+- [ ] 左侧导航可点击跳转
+- [ ] 每个知识点展示 3-5 道例题
+- [ ] 点击「显示答案」后答案和正确选项高亮
+- [ ] 搜索框输入关键词可过滤知识点
+- [ ] 考前检查清单勾选状态刷新后保留
+
+**刷题考试文件**
+- [ ] 文件大小合理（~100-150KB）
+- [ ] 点击选项立即反馈正确/错误
+- [ ] 多选题确认后判分
+- [ ] 错题自动进入「错题重练」
+- [ ] 弱项 TOP 按正确率排序
+- [ ] 点击弱项进入「弱项突击」模式
+- [ ] 模拟考试可生成试卷并查看答案
 - [ ] 手机打开按钮不溢出
-- [ ] localStorage 错题标记关闭再打开还在
-- [ ] 「我会了」点两次取消标记
-- [ ] 「只看错题」只显示标记为不会的题
 
 ## 文件结构
 
 ```
-skills/exam-review/
+skills/PaperAlchemy/
 ├── SKILL.md                        # 本文件（核心流程）
 ├── README.md                       # GitHub 展示页
 ├── template/
-│   └── page_template.py            # HTML 生成模板（CSS+JS+Python）
+│   ├── shared_utils.py             # 题目加载、匹配、紧凑序列化
+│   ├── notes_template.py           # 复习笔记 HTML 生成
+│   ├── quiz_template.py            # 交互刷题 HTML 生成
+│   └── build.py                    # 两文件生成入口
 └── references/
     ├── knowledge_card_format.md    # 知识点卡片格式规范
     └── keyword_matching.md         # 关键词匹配策略
@@ -187,8 +219,20 @@ skills/exam-review/
 
 ```
 课程文件夹/
-└── 期末复习笔记.html    # 自包含 HTML，浏览器直接打开
+├── 课程名-复习笔记.html    # 系统复习用
+└── 课程名-刷题考试.html    # 交互刷题用
 ```
+
+## v4 vs v3 对比
+
+| | v3 | v4 |
+|---|---|---|
+| 输出文件 | 1 个 HTML（三 tab） | 2 个 HTML（笔记 + 刷题） |
+| 复习笔记 | 三 tab 之一 | 独立文件，更详细的卡片、搜索、检查清单 |
+| 刷题交互 | 「显示答案」+ 手动标记会/不会 | 点击选项即时判分 + 解析 |
+| 弱项分析 | 无 | 按知识点正确率 TOP 弱项，一键突击 |
+| 错题模式 | 手动标记 | 自动记录 + 错题重练 |
+| 文件大小 | ~220KB | 笔记 ~230KB + 刷题 ~120KB |
 
 ## v3 vs v2 对比
 
@@ -205,10 +249,11 @@ skills/exam-review/
 
 1. 简答题预测靠 AI 推断，需用户对照真实考试范围调整
 2. 关键词匹配可能有少量错配
-3. 大文件课件（>50MB PDF）解析可能很慢
-4. KaTeX 需联网（离线不渲染公式但文字仍可读）
-5. 不支持图表/电路图内嵌
-6. 依赖 JavaScript（禁用 JS 的浏览器无法使用）
+3. 填空题无法自动判分，需用户对照答案手动标记
+4. 大文件课件（>50MB PDF）解析可能很慢
+5. KaTeX 需联网（离线不渲染公式但文字仍可读）
+6. 不支持图表/电路图内嵌
+7. 依赖 JavaScript（禁用 JS 的浏览器无法使用）
 
 ## 对比同类工具
 

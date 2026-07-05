@@ -8,25 +8,23 @@
 
 ## 功能预览
 
-生成的 HTML 页面包含三个 tab：
+一次生成两个互补的 HTML 文件：
 
-| 复习脉络 | 刷题考试 | 模拟考试 |
-|----------|---------|----------|
-| 知识点卡片 + 记忆钩子 | 全部题目按需加载 | 随机抽题考试 |
-| 每知识点 Top-6 例题 | 按知识点/题型筛选 | 可选题型和数量 |
-| 「去刷题」一键跳转 | 「只会/不会」标记 | 对照答案 |
-| 进度条实时百分比 | 「只看错题」模式 | → 回刷题 tab 标记错题 |
-| 简答题专区 | **标记可撤销** | |
+| 课程名-复习笔记.html | 课程名-刷题考试.html |
+|---|---|
+| 知识点卡片 + 记忆钩子 + 易错点 | 点击选项即时作答、即时反馈 |
+| 每知识点 3-5 道精选例题 | 单选/多选/判断自动判分 |
+| 简答题专区 + 考前检查清单 | 错题自动记录，错题重练 |
+| 知识点搜索 | 弱项 TOP 排行榜，一键突击 |
+| | 模拟考试 + 自定义题型数量 |
 
-![复习脉络](https://raw.githubusercontent.com/helloworld-dlx/PaperAlchemy/main/assets/review.png)
+![复习笔记](https://raw.githubusercontent.com/helloworld-dlx/PaperAlchemy/main/assets/review.png)
 
 ![刷题考试](https://raw.githubusercontent.com/helloworld-dlx/PaperAlchemy/main/assets/quiz.png)
 
-![模拟考试](https://raw.githubusercontent.com/helloworld-dlx/PaperAlchemy/main/assets/mock.png) |
-
 ### 一句话说清
 
-把老师给的 PPT 和你找到的题库网站整合成一个文件，电脑手机都能看。左边是知识点笔记，中间可以刷全部题目＋标记错题，右边能随机生成模拟考卷。**关了再打开错题还在**（存在浏览器本地）。
+把老师给的 PPT 和你找到的题库网站整合成两个文件：一个用来系统看笔记，一个用来交互刷题。**错题记录存在浏览器本地**，关了再打开还在。
 
 ## 安装
 
@@ -74,16 +72,20 @@ Agent 会自动：
 2. 爬取题库
 3. 提取知识点
 4. 匹配题目到知识点
-5. 生成 `期末复习笔记.html`（一个文件，直接打开）
+5. 生成两个文件：`课程名-复习笔记.html` + `课程名-刷题考试.html`
 
 ## 配置
 
-在 `template/page_template.py` 中可调整：
+在 `template/build.py` 调用时传入：
 
 ```python
-DEFAULT_SHOW = 6     # 知识点默认展示几道题
-USE_KATEX = False    # 理工科启用公式渲染
+build_all(
+    ...,
+    max_sample_questions=5,  # 笔记中每个知识点展示几道题
+)
 ```
+
+如需启用 KaTeX，在 `notes_template.py` / `quiz_template.py` 顶部设置 `USE_KATEX = True`。
 
 ## 适用场景
 
@@ -111,7 +113,10 @@ USE_KATEX = False    # 理工科启用公式渲染
 ├── SKILL.md                 # Skill 定义（Agent 加载入口）
 ├── README.md                # 本文件
 ├── template/
-│   └── page_template.py     # HTML 生成模板（CSS+JS+Python）
+│   ├── shared_utils.py      # 题目加载、匹配、紧凑序列化
+│   ├── notes_template.py    # 复习笔记 HTML 生成
+│   ├── quiz_template.py     # 交互刷题 HTML 生成
+│   └── build.py             # 两文件生成入口
 └── references/
     ├── knowledge_card_format.md
     └── keyword_matching.md
@@ -131,9 +136,9 @@ A: 浏览器的 localStorage。不清除浏览器数据就不会丢。
 
 A: 模板设置 `USE_KATEX=True`，自动支持 `$...$` 和 `$$...$$` 公式渲染。
 
-**Q: 生成的页面 220KB，是不是漏了题目？**
+**Q: 生成的两个文件是不是漏了题目？**
 
-A: 没有。909 道题以紧凑 JSON 存储在 JS 变量里，打开页面后动态渲染。体积比 HTML 预渲染小 77%。
+A: 没有。全部题目以紧凑 JSON 存储在 JS 变量里，打开页面后动态渲染。笔记文件只展示每个知识点的 3-5 道例题，完整题库在刷题文件中。
 
 ## 贡献
 

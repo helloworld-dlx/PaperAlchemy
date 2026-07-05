@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-exam-review v3: lazy rendering + event delegation + 3-tab layout
-Target: single HTML, ~350-400KB, all features.
+[LEGACY v3] single-file template with 3-tab layout.
+For v4, use notes_template.py + quiz_template.py + build.py.
+Kept for backward compatibility.
 """
 import json, re, html as html_module, os
 
