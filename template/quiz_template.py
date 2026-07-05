@@ -232,8 +232,10 @@ function renderFilterBar(){
 function renderInteractiveQuestion(qarr){
     const [id,tn,text,opts,ans]=qarr;
     const d=gs();
-    const answered=d['c'+id]||d['w'+id];
-    const isWrong=d['w'+id];
+    // In wrong mode, questions are re-practice: do not show previous answer state
+    const isWrongMode=currentMode==='wrong';
+    const answered=!isWrongMode && (d['c'+id]||d['w'+id]);
+    const isWrong=!isWrongMode && d['w'+id];
     const ansSet=new Set(String(ans).replace(/\s/g,'').toUpperCase());
     function optCls(i){
         const cls=['option'];
