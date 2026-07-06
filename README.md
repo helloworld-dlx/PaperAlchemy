@@ -18,9 +18,9 @@
 | 知识点搜索 | 弱项 TOP 排行榜，一键突击 |
 | | 模拟考试 + 自定义题型数量 |
 
-![复习笔记](assets/review.png)
+![复习笔记](https://raw.githubusercontent.com/helloworld-dlx/PaperAlchemy/main/assets/review.png)
 
-![刷题考试](assets/quiz.png)
+![刷题考试](https://raw.githubusercontent.com/helloworld-dlx/PaperAlchemy/main/assets/quiz.png)
 
 ### 一句话说清
 
